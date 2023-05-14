@@ -12,7 +12,11 @@ async function findRoomsByHotelId(hotelId: number) {
       id: hotelId,
     },
     include: {
-      Rooms: true,
+      Rooms: {
+        include: {
+          Booking: true,
+        },
+      },
     },
   });
 }
