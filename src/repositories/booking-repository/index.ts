@@ -30,9 +30,14 @@ async function findByUserId(userId: number) {
       userId,
     },
     include: {
-      Room: true,
+      Room:{
+        include:  
+        {
+          Hotel: true,
+          Booking: true,
+        },
     },
-  });
+}});
 }
 
 async function upsertBooking({ id, roomId, userId }: UpdateParams) {
