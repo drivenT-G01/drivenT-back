@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { NextFunction, Response } from 'express';
 // eslint-disable-next-line import/no-unresolved
 import httpStatus from 'http-status';
