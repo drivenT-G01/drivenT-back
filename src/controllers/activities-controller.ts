@@ -6,8 +6,8 @@ export async function getActivities(req: Request, res: Response) {
   const id = Number(req.params.scheduleId);
   try {
     const activities = await activitiesService.getByScheduleId(id);
-    return activities;
+    return res.send(activities);
   } catch (error) {
-    res.sendStatus(httpStatus.BAD_REQUEST);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
