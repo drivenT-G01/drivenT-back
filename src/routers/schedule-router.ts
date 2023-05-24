@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Router } from 'express';
 import { authenticateToken } from '@/middlewares';
-import { getAllSchedules } from '@/controllers/schedule-controller';
+import { getAllSchedules } from '@/controllers';
 
 const scheduleRouter = Router();
 
