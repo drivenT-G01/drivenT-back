@@ -1,11 +1,5 @@
 import { prisma } from '@/config';
 
-async function getAllActivities() {
-  return prisma.activity.findMany({
-    include: { ActivityBooking: true, schedule: true },
-  });
-}
-
 async function findManyByScheduleId(scheduleId: number) {
   return prisma.activity.findMany({
     where: {
@@ -18,7 +12,6 @@ async function findManyByScheduleId(scheduleId: number) {
 }
 
 const activitiesRepository = {
-  getAllActivities,
   findManyByScheduleId,
 };
 

@@ -18,19 +18,21 @@ type FormatedActivity = {
   endsAt: string;
   slots: number;
   local: string;
+  isSubscribed: boolean;
 };
 
-const getByScheduleId = async (scheduleId: number): Promise<FormatedActivity[]> => {
+const getByScheduleId = async (scheduleId: number, userId: number): Promise<FormatedActivity[]> => {
   const activities = await activitiesRepository.findManyByScheduleId(scheduleId);
 
   return activities.map(({ id, name, startsAt, endsAt, capacity, ActivityBooking, local }) => {
     return {
       id,
       name,
-      startsAt: dayjs(startsAt).format('HH:mm'),
-      endsAt: dayjs(endsAt).format('HH:mm'),
+      startsAt: dayjs(startsAt.toISOString().substring(0, 22)).format('HH:mm'),
+      endsAt: dayjs(endsAt.toISOString().substring(0, 22)).format('HH:mm'),
       slots: capacity - ActivityBooking.length,
       local,
+      isSubscribed: ActivityBooking.some((booking) => booking.userId === userId),
     };
   });
 };

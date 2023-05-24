@@ -15,8 +15,10 @@ export async function getAllActivities(req: AuthenticatedRequest, res: Response,
 
 export async function getActivities(req: AuthenticatedRequest, res: Response) {
   const id = Number(req.params.scheduleId);
+  const { userId } = req;
+
   try {
-    const activities = await activitiesService.getByScheduleId(id);
+    const activities = await activitiesService.getByScheduleId(id, userId);
     return res.send(activities);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
