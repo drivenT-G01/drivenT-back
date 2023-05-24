@@ -5,8 +5,18 @@ async function getAllActivities() {
     include: { ActivityBooking: true, schedule: true },
   });
 }
-const activityRepository = {
+
+async function findManyByScheduleId(scheduleId: number) {
+  return prisma.activity.findMany({
+    where: {
+      scheduleId,
+    },
+  });
+}
+
+const activitiesRepository = {
   getAllActivities,
+  findManyByScheduleId,
 };
 
-export default activityRepository;
+export default activitiesRepository;
