@@ -5,6 +5,9 @@ async function findManyByScheduleId(scheduleId: number) {
     where: {
       scheduleId,
     },
+    include: {
+      ActivityBooking: true,
+    },
   });
 }
 
