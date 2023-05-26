@@ -16,6 +16,7 @@ type FormatedActivity = {
   endsAt: string;
   slots: number;
   local: string;
+  isSubscribed: boolean;
 };
 
 async function getByScheduleId(scheduleId: number): Promise<FormatedActivity[]> {
@@ -28,10 +29,11 @@ async function getByScheduleId(scheduleId: number): Promise<FormatedActivity[]> 
     return {
       id,
       name,
-      local,
+      startsAt: dayjs(startsAt.toISOString().substring(0, 22)).format('HH:mm'),
+      endsAt: dayjs(endsAt.toISOString().substring(0, 22)).format('HH:mm'),
       slots: capacity - ActivityBooking.length,
-      startsAt: dayjs(startsAt).format('HH:mm'),
-      endsAt: dayjs(endsAt).format('HH:mm'),
+      local,
+      isSubscribed: ActivityBooking.some((booking) => booking.userId === userId),
     };
   });
 }
