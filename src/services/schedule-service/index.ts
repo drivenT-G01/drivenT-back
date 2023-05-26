@@ -1,16 +1,15 @@
 import schedulesRepository from '@/repositories/schedules.repository';
 import { notFoundError } from '@/errors';
 
-async function getAllActivities() {
-  const activities = await schedulesRepository.getAllSchedules();
-  if (!activities) {
-    throw notFoundError();
-  }
-  return activities;
+async function getAllSchedules() {
+  const schedules = await schedulesRepository.getAllSchedules();
+  if (schedules.length === 0) throw notFoundError();
+
+  return schedules;
 }
 
 const schedulesService = {
-  getAllActivities,
+  getAllSchedules,
 };
 
 export default schedulesService;
