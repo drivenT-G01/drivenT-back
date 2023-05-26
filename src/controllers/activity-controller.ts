@@ -13,12 +13,12 @@ export async function getAllActivities(req: AuthenticatedRequest, res: Response,
   }
 }
 
-export async function getActivities(req: AuthenticatedRequest, res: Response) {
+export async function getActivities(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const id = Number(req.params.scheduleId);
   try {
     const activities = await activitiesService.getByScheduleId(id);
-    return res.send(activities);
+    return res.status(httpStatus.OK).send(activities);
   } catch (error) {
-    return res.sendStatus(httpStatus.BAD_REQUEST);
+    next(error);
   }
 }
