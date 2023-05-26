@@ -153,6 +153,7 @@ model Schedule {
   updatedAt DateTime @updatedAt
 
   Activity Activity[]
+  @@index([date])
 }
 
 model Activity {
@@ -169,6 +170,7 @@ model Activity {
 
   schedule        Schedule          @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   ActivityBooking ActivityBooking[]
+  @@index([scheduleId])
 }
 
 model ActivityBooking {
