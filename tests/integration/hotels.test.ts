@@ -96,6 +96,7 @@ describe('GET /hotels', () => {
           image: createdHotel.image,
           createdAt: createdHotel.createdAt.toISOString(),
           updatedAt: createdHotel.updatedAt.toISOString(),
+          Rooms: [],
         },
       ]);
     });
@@ -211,6 +212,7 @@ describe('GET /hotels/:hotelId', () => {
             hotelId: createdHotel.id,
             createdAt: createdRoom.createdAt.toISOString(),
             updatedAt: createdRoom.updatedAt.toISOString(),
+            Booking: [],
           },
         ],
       });
