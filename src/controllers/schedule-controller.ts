@@ -5,7 +5,7 @@ import schedulesService from '@/services/schedule-service';
 
 export async function getAllSchedules(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
-    const scheduleDate = await schedulesService.getAllActivities();
+    const scheduleDate = await schedulesService.getAllSchedules();
     return res.status(httpStatus.OK).send(scheduleDate);
   } catch (error) {
     next(error);

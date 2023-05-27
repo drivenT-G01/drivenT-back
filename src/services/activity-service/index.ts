@@ -6,9 +6,7 @@ import { tooManyInActivityError } from '@/errors/too-many-in-activity-erro';
 
 async function getAllActivities() {
   const activities = await activitiesRepository.getAllActivities();
-  if (!activities) {
-    throw notFoundError();
-  }
+  if (activities.length === 0) throw notFoundError();
   return activities;
 }
 
@@ -22,8 +20,11 @@ type FormatedActivity = {
   isSubscribed: boolean;
 };
 
-const getByScheduleId = async (scheduleId: number, userId: number): Promise<FormatedActivity[]> => {
+async function getByScheduleId(scheduleId: number): Promise<FormatedActivity[]> {
+  if (!scheduleId) throw notFoundError();
+
   const activities = await activitiesRepository.findManyByScheduleId(scheduleId);
+  if (activities.length === 0) throw notFoundError();
 
   return activities.map(({ id, name, startsAt, endsAt, capacity, ActivityBooking, local }) => {
     return {
@@ -36,7 +37,7 @@ const getByScheduleId = async (scheduleId: number, userId: number): Promise<Form
       isSubscribed: ActivityBooking.some((booking) => booking.userId === userId),
     };
   });
-};
+}
 
 const scheludeActivity = async (activityId: number, userId: number) => {
   const activity = await activitiesRepository.getActivityById(activityId);
