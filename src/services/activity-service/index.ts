@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import { notFoundError } from '@/errors';
 import activitiesRepository from '@/repositories/activity-repository';
+import { tooManyInActivityError } from '@/errors/too-many-in-activity-erro';
 
 async function getAllActivities() {
   const activities = await activitiesRepository.getAllActivities();
@@ -37,6 +38,19 @@ const getByScheduleId = async (scheduleId: number, userId: number): Promise<Form
   });
 };
 
-const activitiesService = { getByScheduleId, getAllActivities };
+const scheludeActivity = async (activityId: number, userId: number) => {
+  const activity = await activitiesRepository.getActivityById(activityId);
+  if(!activity) throw notFoundError();
+
+  const schedulesActivity = await  activitiesRepository.findManyByActivityId(activityId);
+
+  if(activity.capacity < schedulesActivity.length) throw tooManyInActivityError()
+
+  await activitiesRepository.scheduleActivity(activityId, userId)
+  
+  return activity.id
+}
+
+const activitiesService = { getByScheduleId, getAllActivities, scheludeActivity };
 
 export default activitiesService;

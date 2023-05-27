@@ -24,3 +24,15 @@ export async function getActivities(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+
+export async function scheduleActivity(req: AuthenticatedRequest, res: Response) {
+  const id = Number(req.params.activitieId);
+  const {userId} = req;
+
+  try{
+    await activitiesService.scheludeActivity(id, userId)
+    return res.sendStatus(httpStatus.CREATED)
+  }catch(err){
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}

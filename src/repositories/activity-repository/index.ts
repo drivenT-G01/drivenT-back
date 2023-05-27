@@ -16,10 +16,35 @@ async function findManyByScheduleId(scheduleId: number) {
     },
   });
 }
+async function getActivityById(activitiesId: number) {
+  return prisma.activity.findFirst({ 
+    where: { 
+      id: activitiesId 
+    }, 
+  });
+}
+async function scheduleActivity(activityId: number, userId: number) {
+  return prisma.activityBooking.create({
+    data: {
+      userId,
+      activityId
+    }
+  })
+}
+async function findManyByActivityId(activityId: number) {
+  return prisma.activityBooking.findMany({
+    where: {
+      activityId: activityId
+    }
+  })
+}
 
 const activitiesRepository = {
   getAllActivities,
   findManyByScheduleId,
+  getActivityById,
+  scheduleActivity,
+  findManyByActivityId,
 };
 
 export default activitiesRepository;
