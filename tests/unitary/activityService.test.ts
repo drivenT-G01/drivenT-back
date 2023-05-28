@@ -17,20 +17,22 @@ describe('getAllActivities function', () => {
 
 describe('getByScheduleId function', () => {
   it('should get Activities by scheduleId', async () => {
+    const userId = 1;
     const scheduleId = 1;
     const activities = [getActivityMock()];
 
     jest.spyOn(activitiesRepository, 'findManyByScheduleId').mockResolvedValue(activities);
 
-    const result = await activitiesService.getByScheduleId(scheduleId);
+    const result = await activitiesService.getByScheduleId(scheduleId, userId);
     const formattedObject = [
       {
         id: 1,
         name: 'teste',
         local: 'AL',
         slots: 2,
-        startsAt: dayjs().format('HH:mm'),
-        endsAt: dayjs().format('HH:mm'),
+        startsAt: dayjs().add(3, 'hour').format('HH:mm'),
+        endsAt: dayjs().add(3, 'hour').format('HH:mm'),
+        isSubscribed: false,
       },
     ];
 

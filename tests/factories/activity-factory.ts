@@ -19,6 +19,31 @@ export async function createActivity(scheduleId: number) {
   });
 }
 
+export async function createActivityWithOneCapacity(scheduleId: number) {
+  return prisma.activity.create({
+    data: {
+      id: 1,
+      scheduleId,
+      name: faker.company.companyName(),
+      startsAt: new Date(),
+      endsAt: new Date(),
+      local: 'AL',
+      capacity: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+}
+
+export async function createActivityBooking(activityId: number, userId: number) {
+  return prisma.activityBooking.create({
+    data: {
+      activityId,
+      userId,
+    },
+  });
+}
+
 export function getAllActivitiesMock() {
   const activity: (Activity & { schedule: Schedule; ActivityBooking: ActivityBooking[] })[] = [
     {
@@ -43,15 +68,6 @@ export function getAllActivitiesMock() {
 
   return activity;
 }
-
-type FormatedActivity = {
-  id: number;
-  name: string;
-  startsAt: string;
-  endsAt: string;
-  slots: number;
-  local: string;
-};
 
 export function getActivityMock(): Activity & { ActivityBooking: ActivityBooking[] } {
   return {
