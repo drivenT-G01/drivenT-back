@@ -38,6 +38,13 @@ async function findManyByActivityId(activityId: number) {
     }
   })
 }
+async function findUserActivities(userId: number) {
+  return prisma.activityBooking.findMany({
+    where: {
+      userId
+    }
+  })
+}
 
 const activitiesRepository = {
   getAllActivities,
@@ -45,6 +52,7 @@ const activitiesRepository = {
   getActivityById,
   scheduleActivity,
   findManyByActivityId,
+  findUserActivities,
 };
 
 export default activitiesRepository;

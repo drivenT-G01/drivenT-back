@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { notFoundError } from '@/errors';
 import activitiesRepository from '@/repositories/activity-repository';
 import { tooManyInActivityError } from '@/errors/too-many-in-activity-erro';
+import { userAlreadyHaveOnThisTimeError } from '@/errors/user-already-have-on-this-time-erro';
 
 async function getAllActivities() {
   const activities = await activitiesRepository.getAllActivities();
@@ -46,6 +47,15 @@ const scheludeActivity = async (activityId: number, userId: number) => {
   const schedulesActivity = await  activitiesRepository.findManyByActivityId(activityId);
 
   if(activity.capacity < schedulesActivity.length) throw tooManyInActivityError()
+
+  const usersActivities = await activitiesRepository.findUserActivities(userId)
+
+  usersActivities.map(async (activityM) => {
+    const activityMapped = await activitiesRepository.getActivityById(activityM.id)
+    if(activityMapped.startsAt === activity.startsAt){
+      throw  userAlreadyHaveOnThisTimeError()
+    }
+  })
 
   await activitiesRepository.scheduleActivity(activityId, userId)
   
