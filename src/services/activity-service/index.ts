@@ -21,7 +21,7 @@ type FormatedActivity = {
   isSubscribed: boolean;
 };
 
-async function getByScheduleId(scheduleId: number): Promise<FormatedActivity[]> {
+async function getByScheduleId(scheduleId: number, userId: number): Promise<FormatedActivity[]> {
   if (!scheduleId) throw notFoundError();
 
   const activities = await activitiesRepository.findManyByScheduleId(scheduleId);
@@ -42,11 +42,11 @@ async function getByScheduleId(scheduleId: number): Promise<FormatedActivity[]> 
 
 const scheludeActivity = async (activityId: number, userId: number) => {
   const activity = await activitiesRepository.getActivityById(activityId);
-  if(!activity) throw notFoundError();
+  if (!activity) throw notFoundError();
 
-  const schedulesActivity = await  activitiesRepository.findManyByActivityId(activityId);
+  const schedulesActivity = await activitiesRepository.findManyByActivityId(activityId);
 
-  if(activity.capacity < schedulesActivity.length) throw tooManyInActivityError()
+  if (activity.capacity === schedulesActivity.length) throw tooManyInActivityError();
 
   const usersActivities = await activitiesRepository.findUserActivities(userId)
 

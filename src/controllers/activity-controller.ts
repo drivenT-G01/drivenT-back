@@ -18,7 +18,7 @@ export async function getActivities(req: AuthenticatedRequest, res: Response, ne
   const { userId } = req;
 
   try {
-    const activities = await activitiesService.getByScheduleId(id);
+    const activities = await activitiesService.getByScheduleId(id, userId);
     return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     next(error);
@@ -27,12 +27,15 @@ export async function getActivities(req: AuthenticatedRequest, res: Response, ne
 
 export async function scheduleActivity(req: AuthenticatedRequest, res: Response) {
   const id = Number(req.params.activitieId);
-  const {userId} = req;
+  const { userId } = req;
 
-  try{
-    await activitiesService.scheludeActivity(id, userId)
-    return res.sendStatus(httpStatus.CREATED)
-  }catch(err){
+  try {
+    await activitiesService.scheludeActivity(id, userId);
+    return res.sendStatus(httpStatus.CREATED);
+  } catch (err) {
+    if (err.name === 'NotFoundError') {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
